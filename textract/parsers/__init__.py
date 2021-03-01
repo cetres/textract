@@ -82,19 +82,15 @@ def _get_available_extensions():
     tab-completion and exception handling.
     """
     extensions = []
-
-    # from filenames
-    parsers_dir = os.path.join(os.path.dirname(__file__))
-    glob_filename = os.path.join(parsers_dir, "*" + _FILENAME_SUFFIX + ".py")
-    # escape backslashes for python 3.6+
-    glob_filename = glob_filename.replace("//", "////")
-    ext_re = re.compile(glob_filename.replace('*', r"(?P<ext>\w+)"))
-    for filename in glob.glob(glob_filename):
-        ext_match = ext_re.match(filename)
+    re_file = re.compile(r'(?P<ext>\w+)' + _FILENAME_SUFFIX + ".py")
+    for filename in os.listdir(os.path.dirname(__file__)):
+        ext_match = re_file.match(filename)
+        if ext_match is None:
+            continue
         ext = ext_match.groups()[0]
         extensions.append(ext)
         extensions.append('.' + ext)
-
+    
     # from relevant synonyms (don't use the '' synonym)
     for ext in EXTENSION_SYNONYMS.keys():
         if ext:
