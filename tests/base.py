@@ -175,7 +175,7 @@ class BaseParserTestCase(GenericUtilities):
         # run the command and make sure everything worked correctly
         temp_filename = self.get_temp_filename()
         self.assertSuccessfulCommand(
-            "textract %(option)s '%(filename)s' > %(temp_filename)s" % locals()
+            'textract %(option)s "%(filename)s" > %(temp_filename)s' % locals()
         )
         if cleanup:
             os.remove(temp_filename)
